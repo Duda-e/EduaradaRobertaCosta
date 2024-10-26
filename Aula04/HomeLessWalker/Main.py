@@ -23,12 +23,14 @@ folhaSpritesIdle = pygame.image.load("assets/Homeless_1/Idle_2.png").convert_alp
 folhaSpritesWalk = pygame.image.load("assets/Homeless_1/Walk.png").convert_alpha()
 folhaSpritesJump = pygame.image.load("assets/Homeless_1/Jump.png").convert_alpha()
 folhaSpritesRunn = pygame.image.load("assets/Homeless_1/Run.png").convert_alpha()
+folhaSpritesDead = pygame.image.load("assets/Homeless_1/Dead.png").convert_alpha()
 
 # Define os frames
 listFramesIdle = []
 listFramesWalk = []
 listFramesJump = []
 listFramesRunn = []
+listFramesDead = []
 
 # Cria os frames do personagem na lista de listFramesIdle
 for i in range(11):
@@ -56,6 +58,11 @@ for i in range(8):
     frame = pygame.transform.scale(frame, (256, 256))
     listFramesRunn.append(frame)
 
+for i in range(4):
+    frame = folhaSpritesDead.subsurface(i * 128, 0, 128, 128)
+    frame = pygame.transform.scale(frame, (256, 256))
+    listFramesDead.append(frame)
+
 # Variaveis da animação do personagem parado
 indexFrameIdle = 0 # Controla qual imagem está sendo mostrada na tela
 tempoAnimacaoIdle = 0.0 # Controla quanto tempo se passou desde a última troca de frame
@@ -75,6 +82,11 @@ velocidadeAnimacaoJump = 5
 indexFrameRunn = 0
 tempoAnimacaoRunn = 0.0
 velocidadeAnimacaoRunn = 10
+
+# Variaveis da animação do personagem morrendo
+indexFrameDead = 0
+tempoAnimacaoDead = 0.0
+velocidadeAnimacaoDead = 10
 
 # Retangulo do personagem na tela para melhor controle e posicionamento do personagem
 personagemRect = listFramesIdle[0].get_rect(midbottom=(250, 480))
@@ -138,6 +150,7 @@ tempoMaximoEntreObstaculos = 3000
 ADICIONA_OBSTACULO = pygame.USEREVENT + 2 # Evento para adicionar um obstáculo na tela
 pygame.time.set_timer(ADICIONA_OBSTACULO, randint(500, tempoMaximoEntreObstaculos)) # Adiciona um obstáculo a cada 1 segundo
 estaTocandoMusica = True
+
 # LOOP PRINCIPAL
 while True:
     # Loop que verifica todos os eventos que acontecem no jogo
@@ -278,6 +291,14 @@ while True:
         # Atualiza o frame do personagem correndo
         indexFrameRunn = (indexFrameRunn + 1) % len(listFramesRunn)
         tempoAnimacaoRunn = 0.0
+
+    tempoAnimacaoDead += dt
+
+      # Verifica se o tempo de animação do personagem morrendo
+    if tempoAnimacaoDead >= 1 / velocidadeAnimacaoDead:
+        # Atualiza o frame do personagem MORRENDO
+        indexFrameDead = (indexFrameDead + 1) % len(listFramesDead)
+        tempoAnimacaoDead = 0.0
 
     # Verifica se o personagem está andando
     estaAndando = False
