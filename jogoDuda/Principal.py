@@ -120,12 +120,12 @@ velocidadeAnimacaoJump = 5
 # Variaveis da animação do personagem correndo
 indexFrameRunn = 0
 tempoAnimacaoRunn = 0.0
-velocidadeAnimacaoRunn = 10
+velocidadeAnimacaoRunn = 12
 
 # Variaveis da animação do personagem morto
 indexFrameDead = 0
 tempoAnimacaoDead = 0.0
-velocidadeAnimacaoDead = 3
+velocidadeAnimacaoDead = 10
 
 # Retangulo do personagem na tela para melhor controle e posicionamento do personagem
 personagemRect = listFramesIdle[0].get_rect(midbottom=(250, 480))
@@ -137,7 +137,7 @@ estaAndando = False # Define se o personagem está andando ou não
 
 # ASSETS PARA OS OBSTÁCULOS
 listaImagensObstaculos = [
-    pygame.image.load(f"Obstaculos/Armas/Icon28_{i:02d}.png").convert_alpha() for i in range(1, 40)
+    pygame.image.load(f"craftpix-net-459799-free-low-level-monsters-pixel-icons-32x32/PNG/Transperent/Icon{i:02d}.png").convert_alpha() for i in range(1, 48)
 ] # Lista de obstáculos que aparecerão na tela
 
 # Loop que redimensiona as imagens dos obstáculos
@@ -230,6 +230,7 @@ while True:
     # Verifica se o jogador perdeu todas as vidas
     if vidas <= 0:
         GameOver = True
+        pygame.mixer.music.stop()
 
     # Percorre todas as imagens do plano de fundo para movimentar
     for i in range(len(listBgImages)):
